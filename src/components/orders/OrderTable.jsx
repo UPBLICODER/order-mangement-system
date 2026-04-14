@@ -1,6 +1,6 @@
 import { Card, Badge } from "../ui";
 import Skeleton from "../ui/Skeleton";
-import { orders } from "../../data/orders";
+import { useOrders } from "../../context/OrderContext";
 import { formatDate } from "../../utils/formatDate";
 import { formatCurrency } from "../../utils/formatCurrency";
 import { Eye, Edit, Calendar, User, Search } from "lucide-react";
@@ -10,6 +10,8 @@ export default function OrderTable({ search, filters }) {
   const navigate = useNavigate();
   const loading = false; // simulate (later from hook)
 
+  const { orders } = useOrders();
+  
   //  FILTER
   const filtered = orders.filter((order) => {
     const matchSearch =
@@ -88,7 +90,10 @@ export default function OrderTable({ search, filters }) {
                 <tr
                   key={order.id}
                   className="border-b border-white/5 hover:bg-white/5 transition group cursor-pointer"
-                  onClick={() => navigate(`/orders/${order.id}`)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/orders/${order.id}`);
+                  }}
                 >
                   <td className="py-4 px-4 font-medium text-white">
                     {order.id}
@@ -139,13 +144,19 @@ export default function OrderTable({ search, filters }) {
                   <td className="px-4">
                     <div className="opacity-0 group-hover:opacity-100 transition flex justify-end gap-2">
                       <button
-                        onClick={() => navigate(`/orders/${order.id}`)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/orders/${order.id}`);
+                        }}
                         className="text-gray-400 hover:text-white transition text-sm p-1 rounded hover:bg-white/5 cursor-pointer"
                       >
                         <Eye size={16} />
                       </button>
                       <button
-                        onClick={() => navigate(`/edit/${order.id}`)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/orders/${order.id}/edit`);
+                        }}
                         className="text-gray-400 hover:text-white transition text-sm p-1 rounded hover:bg-white/5 cursor-pointer"
                       >
                         <Edit size={16} />
@@ -220,14 +231,20 @@ export default function OrderTable({ search, filters }) {
             {/* ACTIONS */}
             <div className="flex gap-2 pt-1">
               <button
-                onClick={() => navigate(`/orders/${order.id}`)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/orders/${order.id}`);
+                }}
                 className="flex-1 bg-white/5 hover:bg-white/10 py-2 rounded-xl text-xs transition flex items-center justify-center gap-1 cursor-pointer"
               >
                 <Eye size={14} />
                 View
               </button>
               <button
-                onClick={() => navigate(`/edit/${order.id}`)} // future page
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/orders/${order.id}/edit`);
+                }}
                 className="flex-1 bg-white/5 hover:bg-white/10 py-2 rounded-xl text-xs transition flex items-center justify-center gap-1 cursor-pointer"
               >
                 <Edit size={14} />

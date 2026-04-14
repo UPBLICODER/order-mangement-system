@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { orders } from "../data/orders";
+import { useOrders } from "../context/OrderContext";
 import { Button } from "../components/ui";
 import Skeleton from "../components/ui/Skeleton";
 
@@ -13,7 +13,8 @@ export default function OrderDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const order = orders.find((o) => o.id === id);
+  const { getOrder } = useOrders();
+  const order = getOrder(id);
 
   if (!order) {
     return (
@@ -50,10 +51,22 @@ export default function OrderDetail() {
           </div>
 
           <div className="flex gap-2">
-            <Button variant="ghost" onClick={() => navigate("/orders")} className="cursor-pointer">
+            <Button
+              variant="ghost"
+              onClick={() => navigate("/orders")}
+              className="cursor-pointer"
+            >
               Back
             </Button>
-            <Button className="cursor-pointer">Edit Order</Button>
+            <Button
+              className="cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/orders/${order.id}/edit`);
+              }}
+            >
+              Edit Order
+            </Button>
           </div>
         </div>
 
