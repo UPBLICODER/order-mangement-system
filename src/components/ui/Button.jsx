@@ -7,7 +7,7 @@ export default function Button({
   className,
   ...props
 }) {
-  const base ="px-4 py-2 rounded-2xl text-sm font-medium transition-all duration-300 active:scale-95";
+  const base ="px-4 py-2 rounded-2xl text-sm font-medium transition-all duration-300 active:scale-95 cursor-pointer";
 
   const variants = {
     primary:"bg-gradient-to-r from-indigo-500 to-purple-500 text-white hover:opacity-90 shadow-lg shadow-indigo-500/30",

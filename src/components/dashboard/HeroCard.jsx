@@ -31,7 +31,10 @@ export default function HeroCard({ loading, stats }) {
             ))}
           </div>
 
-          <Button onClick={() => navigate("/orders")} className="mt-4">
+          <Button
+            onClick={() => navigate("/orders")}
+            className="mt-4 cursor-pointer"
+          >
             View Orders →
           </Button>
         </div>

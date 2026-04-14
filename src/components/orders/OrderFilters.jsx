@@ -1,6 +1,6 @@
 import { Input, Badge } from "../ui";
 import { cn } from "../../utils/cn";
-import { ChevronDown, ChevronUp,Search } from "lucide-react";
+import { ChevronDown, ChevronUp, Search } from "lucide-react";
 import { useState } from "react";
 
 export default function OrderFilters({
@@ -57,14 +57,14 @@ export default function OrderFilters({
 
         {/* icon */}
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white-500 text-sm">
-          <Search size={16}/>
+          <Search size={16} />
         </span>
 
         {/* clear */}
         {search && (
           <button
             onClick={() => setSearch("")}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white text-sm"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white text-sm cursor-pointer"
           >
             ✕
           </button>
@@ -87,19 +87,25 @@ export default function OrderFilters({
             }
             className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 pr-8 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 transition-all duration-200 cursor-pointer appearance-none"
           >
-            <option value="all" className="bg-[#0b0f1a] text-white">
+            <option value="all" className="bg-slate-800/95 text-white">
               All Status
             </option>
-            <option value="pending" className="bg-[#0b0f1a] text-yellow-400">
+            <option value="pending" className="bg-slate-800/95 text-yellow-400">
               Pending
             </option>
-            <option value="in_progress" className="bg-[#0b0f1a] text-blue-400">
+            <option
+              value="in_progress"
+              className="bg-slate-800/95 text-blue-400"
+            >
               In Progress
             </option>
-            <option value="completed" className="bg-[#0b0f1a] text-green-400">
+            <option
+              value="completed"
+              className="bg-slate-800/95 text-green-400"
+            >
               Completed
             </option>
-            <option value="cancelled" className="bg-[#0b0f1a] text-red-400">
+            <option value="cancelled" className="bg-slate-800/95 text-red-400">
               Cancelled
             </option>
           </select>
@@ -127,16 +133,16 @@ export default function OrderFilters({
             }
             className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 pr-8 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 transition-all duration-200 cursor-pointer appearance-none"
           >
-            <option value="all" className="bg-[#0b0f1a] text-white">
+            <option value="all" className="bg-slate-800/95 text-white">
               All Priority
             </option>
-            <option value="high" className="bg-[#0b0f1a] text-red-400">
+            <option value="high" className="bg-slate-800/95 text-red-400">
               High
             </option>
-            <option value="medium" className="bg-[#0b0f1a] text-yellow-400">
+            <option value="medium" className="bg-slate-800/95 text-yellow-400">
               Medium
             </option>
-            <option value="low" className="bg-[#0b0f1a] text-green-400">
+            <option value="low" className="bg-slate-800/95 text-green-400">
               Low
             </option>
           </select>
@@ -163,13 +169,13 @@ export default function OrderFilters({
             }
             className="bg-white/5 border border-white/10 rounded-xl px-3 py-2 pr-8 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 transition-all duration-200 cursor-pointer appearance-none"
           >
-            <option value="all" className="bg-[#0b0f1a] text-white">
+            <option value="all" className="bg-slate-800/95 text-white">
               All Time
             </option>
-            <option value="7d" className="bg-[#0b0f1a] text-white">
+            <option value="7d" className="bg-slate-800/95 text-white">
               Last 7 days
             </option>
-            <option value="30d" className="bg-[#0b0f1a] text-white">
+            <option value="30d" className="bg-slate-800/95 text-white">
               Last 30 days
             </option>
           </select>
@@ -186,7 +192,7 @@ export default function OrderFilters({
         {hasActive && (
           <button
             onClick={clearFilters}
-            className="text-xs text-gray-400 hover:text-white transition"
+            className="text-xs text-gray-400 hover:text-white transition cursor-pointer"
           >
             Clear all
           </button>
@@ -214,25 +220,34 @@ export default function OrderFilters({
       {hasActive && (
         <div className="flex flex-wrap gap-2">
           {search && (
-            <button onClick={() => setSearch("")}>
+            <button onClick={() => setSearch("")} className="cursor-pointer">
               <Badge value="Search" className="cursor-pointer" />
             </button>
           )}
 
           {filters.status !== "all" && (
-            <button onClick={() => updateFilter("status", "all")}>
+            <button
+              onClick={() => updateFilter("status", "all")}
+              className="cursor-pointer"
+            >
               <Badge value={filters.status} />
             </button>
           )}
 
           {filters.priority !== "all" && (
-            <button onClick={() => updateFilter("priority", "all")}>
+            <button
+              onClick={() => updateFilter("priority", "all")}
+              className="cursor-pointer"
+            >
               <Badge value={filters.priority} />
             </button>
           )}
 
           {filters.date !== "all" && (
-            <button onClick={() => updateFilter("date", "all")}>
+            <button
+              onClick={() => updateFilter("date", "all")}
+              className="cursor-pointer"
+            >
               <Badge value={filters.date} />
             </button>
           )}

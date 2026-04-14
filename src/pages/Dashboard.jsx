@@ -35,7 +35,7 @@ export default function Dashboard() {
             </p>
           </div>
 
-          <Button onClick={() => navigate("/create")} className="shrink-0">
+          <Button onClick={() => navigate("/create")} className="shrink-0 cursor-pointer">
             + New Order
           </Button>
         </div>
@@ -57,7 +57,7 @@ export default function Dashboard() {
             <p className="text-xs text-gray-500 mt-1">
               Start by creating your first order
             </p>
-            <Button onClick={() => navigate("/create")} className="mt-4">
+            <Button onClick={() => navigate("/create")} className="mt-4 cursor-pointer">
               Create Order
             </Button>
           </Card>

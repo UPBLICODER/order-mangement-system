@@ -17,7 +17,6 @@ export default function Orders() {
 
   return (
     <div className="min-h-screen bg-[#0b0f1a] text-white relative overflow-hidden">
-     
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-20 -left-20 w-[140%] h-[140%] bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-pink-500/10 blur-3xl opacity-30" />
       </div>
@@ -39,12 +38,17 @@ export default function Orders() {
               Dashboard
             </Button>
 
-            <Button onClick={() => navigate("/create")}>+ New Order</Button>
+            <Button
+              onClick={() => navigate("/create")}
+              className="cursor-pointer"
+            >
+              + New Order
+            </Button>
           </div>
         </div>
 
         {/* FLOATING FILTERS */}
-        <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-4 backdrop-blur-xl">
+        <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 backdrop-blur-xl shadow-lg shadow-indigo-500/5">
           <OrderFilters
             search={search}
             setSearch={setSearch}

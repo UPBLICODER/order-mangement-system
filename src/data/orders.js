@@ -10,9 +10,17 @@ export const orders = [
     createdAt: "2024-01-10",
     updatedAt: "2024-01-12",
     assignedTo: "Rahul Verma",
-    items: 3,
     city: "Delhi",
+
+    items: [
+      { name: "Wireless Headphones", qty: 1, price: 4999 },
+      { name: "Bluetooth Speaker", qty: 1, price: 2999 },
+      { name: "Smart Watch", qty: 1, price: 4501 },
+    ],
+
+    notes: ["Customer requested fast delivery"],
   },
+
   {
     id: "ORD-1025",
     customerName: "Neha Gupta",
@@ -24,9 +32,13 @@ export const orders = [
     createdAt: "2024-01-09",
     updatedAt: "2024-01-11",
     assignedTo: "Amit Singh",
-    items: 1,
     city: "Mumbai",
+
+    items: [{ name: "Office Chair", qty: 1, price: 4999 }],
+
+    notes: ["Delivered successfully"],
   },
+
   {
     id: "ORD-1026",
     customerName: "Rohan Mehta",
@@ -38,9 +50,16 @@ export const orders = [
     createdAt: "2024-01-08",
     updatedAt: null,
     assignedTo: null,
-    items: 2,
     city: "Bangalore",
+
+    items: [
+      { name: "Laptop Stand", qty: 1, price: 2999 },
+      { name: "Keyboard", qty: 1, price: 6000 },
+    ],
+
+    notes: [],
   },
+
   {
     id: "ORD-1027",
     customerName: "Priya Singh",
@@ -52,9 +71,13 @@ export const orders = [
     createdAt: "2024-01-07",
     updatedAt: "2024-01-08",
     assignedTo: "Suresh Yadav",
-    items: 1,
     city: "Pune",
+
+    items: [{ name: "Table Lamp", qty: 1, price: 2999 }],
+
+    notes: ["Order cancelled by user"],
   },
+
   {
     id: "ORD-1028",
     customerName: "Karan Malhotra",
@@ -66,9 +89,17 @@ export const orders = [
     createdAt: "2024-01-11",
     updatedAt: "2024-01-12",
     assignedTo: "Rahul Verma",
-    items: 5,
     city: "Hyderabad",
+
+    items: [
+      { name: "Gaming Mouse", qty: 1, price: 1999 },
+      { name: "Mechanical Keyboard", qty: 1, price: 5999 },
+      { name: "Monitor", qty: 1, price: 8000 },
+    ],
+
+    notes: [],
   },
+
   {
     id: "ORD-1029",
     customerName: "Simran Kaur",
@@ -80,9 +111,13 @@ export const orders = [
     createdAt: "2024-01-06",
     updatedAt: "2024-01-10",
     assignedTo: "Amit Singh",
-    items: 4,
     city: "Chandigarh",
+
+    items: [{ name: "Smartphone", qty: 1, price: 21999 }],
+
+    notes: ["Delivered early"],
   },
+
   {
     id: "ORD-1030",
     customerName: "Aditya Joshi",
@@ -94,9 +129,13 @@ export const orders = [
     createdAt: "2024-01-12",
     updatedAt: null,
     assignedTo: null,
-    items: 2,
     city: "Jaipur",
+
+    items: [{ name: "Printer", qty: 1, price: 7499 }],
+
+    notes: [],
   },
+
   {
     id: "ORD-1031",
     customerName: "Sneha Iyer",
@@ -108,9 +147,16 @@ export const orders = [
     createdAt: "2024-01-13",
     updatedAt: "2024-01-14",
     assignedTo: "Suresh Yadav",
-    items: 1,
     city: "Chennai",
+
+    items: [
+      { name: "Desk Organizer", qty: 1, price: 1999 },
+      { name: "Lamp", qty: 1, price: 2000 },
+    ],
+
+    notes: [],
   },
+
   {
     id: "ORD-1032",
     customerName: "Vikram Desai",
@@ -122,9 +168,13 @@ export const orders = [
     createdAt: "2024-01-05",
     updatedAt: "2024-01-09",
     assignedTo: "Amit Singh",
-    items: 3,
     city: "Ahmedabad",
+
+    items: [{ name: "Tablet", qty: 1, price: 12999 }],
+
+    notes: [],
   },
+
   {
     id: "ORD-1033",
     customerName: "Pooja Nair",
@@ -136,7 +186,10 @@ export const orders = [
     createdAt: "2024-01-04",
     updatedAt: "2024-01-06",
     assignedTo: "Rahul Verma",
-    items: 2,
     city: "Kochi",
+
+    items: [{ name: "Headphones", qty: 1, price: 5599 }],
+
+    notes: ["Payment failed"],
   },
 ];
