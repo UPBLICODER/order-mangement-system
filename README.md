@@ -14,6 +14,12 @@ Follow the steps below to run the project locally.
 * npm or yarn
 
 ---
+### Tech Stack
+
+* React
+* Tailwind CSS
+
+---
 
 ## 📥 Installation
 
