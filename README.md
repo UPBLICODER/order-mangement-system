@@ -1,5 +1,3 @@
----
-
 # 📦 Order Management System
 
 A modern React-based application to manage product inventory, track customer orders, and visualize business performance through an interactive dashboard.
