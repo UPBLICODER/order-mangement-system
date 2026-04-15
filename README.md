@@ -1,5 +1,3 @@
-Here’s your **final polished README (production + interview ready)** with everything included — clean structure, features, challenges, and professionalism 👇
-
 ---
 
 # 📦 Order Management System
