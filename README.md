@@ -1,7 +1,3 @@
-Your professional `README.md` file is ready below. It is written in simple English, follows the repository's structure, and includes the specific challenges you identified in a concise format.
-
----
-
 # Order Management System
 
 A streamlined React application designed to manage product inventory, track customer orders, and visualize business performance via a central dashboard.
