@@ -1,17 +1,36 @@
-import { createContext, useContext, useState } from "react";
-import { orders as initialOrders } from "../data/orders";
+import { createContext, useContext, useEffect, useState } from "react";
+import { orders as seedOrders } from "../data/orders";
 
 const OrderContext = createContext();
 
-export function OrderProvider({ children }) {
-  const [orders, setOrders] = useState(initialOrders);
+export const OrderProvider = ({ children }) => {
+  const [orders, setOrders] = useState([]);
 
-  // GET
+  // INIT FROM LOCALSTORAGE OR SEED DATA
+  useEffect(() => {
+    const stored = localStorage.getItem("orders");
+
+    if (stored) {
+      setOrders(JSON.parse(stored));
+    } else {
+      setOrders(seedOrders);
+      localStorage.setItem("orders", JSON.stringify(seedOrders));
+    }
+  }, []);
+
+  // SAVE ON CHANGE
+  useEffect(() => {
+    if (orders.length) {
+      localStorage.setItem("orders", JSON.stringify(orders));
+    }
+  }, [orders]);
+
+  // GET (FIXED - ADDED BACK)
   const getOrder = (id) => {
     return orders.find((o) => o.id === id);
   };
 
-  // ADD
+  // CREATE
   const addOrder = (order) => {
     setOrders((prev) => [order, ...prev]);
   };
@@ -19,7 +38,11 @@ export function OrderProvider({ children }) {
   // UPDATE
   const updateOrder = (id, updatedData) => {
     setOrders((prev) =>
-      prev.map((o) => (o.id === id ? { ...o, ...updatedData } : o)),
+      prev.map((o) =>
+        o.id === id
+          ? { ...o, ...updatedData, updatedAt: new Date().toISOString() }
+          : o,
+      ),
     );
   };
 
@@ -35,6 +58,6 @@ export function OrderProvider({ children }) {
       {children}
     </OrderContext.Provider>
   );
-}
+};
 
 export const useOrders = () => useContext(OrderContext);

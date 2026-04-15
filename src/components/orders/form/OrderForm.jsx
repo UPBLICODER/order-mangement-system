@@ -11,10 +11,12 @@ const steps = [
   { label: "Review" },
 ];
 
+const ErrorText = ({ message }) =>
+  message ? <p className="text-xs text-red-400 mt-1">{message}</p> : null;
+
 export default function OrderForm({ defaultValues, isEdit }) {
   const navigate = useNavigate();
   const { addOrder, updateOrder, deleteOrder } = useOrders();
-
   const [step, setStep] = useState(0);
 
   const {
@@ -23,7 +25,6 @@ export default function OrderForm({ defaultValues, isEdit }) {
     trigger,
     reset,
     watch,
-    clearErrors,
     formState: { errors },
   } = useForm({
     mode: "onChange",
@@ -39,29 +40,24 @@ export default function OrderForm({ defaultValues, isEdit }) {
     },
   });
 
-  // IMPORTANT FIX: reload edit data correctly
   useEffect(() => {
-    if (defaultValues) {
-      reset(defaultValues);
-    }
+    if (defaultValues) reset(defaultValues);
   }, [defaultValues, reset]);
 
   const data = watch();
 
-  // STEP VALIDATION
-  const next = async () => {
+  const handleNext = async () => {
     const fields =
       step === 0
         ? ["customerName", "email", "phone", "city"]
         : ["status", "priority", "amount"];
 
-    const valid = await trigger(fields);
-    if (valid) setStep((s) => s + 1);
+    const isValid = await trigger(fields);
+    if (isValid) setStep((s) => s + 1);
   };
 
-  const prev = () => setStep((s) => s - 1);
+  const handlePrev = () => setStep((s) => s - 1);
 
-  // SUBMIT
   const onSubmit = (formData) => {
     const payload = {
       ...formData,
@@ -84,7 +80,6 @@ export default function OrderForm({ defaultValues, isEdit }) {
     navigate("/orders");
   };
 
-  // DELETE
   const handleDelete = () => {
     deleteOrder(defaultValues.id);
     navigate("/orders");
@@ -92,7 +87,7 @@ export default function OrderForm({ defaultValues, isEdit }) {
 
   const inputClass = (field) =>
     cn(
-      "w-full bg-white/5 border rounded-xl px-3 py-2 text-sm transition outline-none",
+      "w-full bg-[#0b0f1a] text-white border rounded-xl px-3 py-2 text-sm transition outline-none",
       errors[field]
         ? "border-red-500 focus:ring-2 focus:ring-red-500/40"
         : "border-white/10 focus:ring-2 focus:ring-indigo-500/40",
@@ -100,60 +95,52 @@ export default function OrderForm({ defaultValues, isEdit }) {
 
   return (
     <Card className="max-w-3xl mx-auto space-y-6">
-      {/* TIMELINE (MATCH DETAIL PAGE STYLE) */}
+      {/* STEP INDICATOR */}
       <div className="relative">
-        {/* CIRCLES ROW (REFERENCE FOR LINE) */}
         <div className="grid grid-cols-3 relative h-8">
-          {/* BASE LINE */}
           <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-white/10 -translate-y-1/2" />
-
-          {/* ACTIVE LINE */}
           <div
             className="absolute top-1/2 left-0 h-[2px] bg-indigo-500 transition-all duration-500 -translate-y-1/2"
             style={{ width: `${(step / 2) * 100}%` }}
           />
 
-          {/* CIRCLES */}
-          {steps.map((s, i) => {
-            const active = i <= step;
-
-            return (
-              <div key={i} className="flex justify-center items-center z-10">
-                <div
-                  className={cn(
-                    "w-8 h-8 rounded-full flex items-center justify-center text-xs",
-                    active
-                      ? "bg-indigo-500 text-white"
-                      : "bg-[#1a1f2e] text-gray-500 border border-white/10",
-                  )}
-                >
-                  {active ? "✓" : i + 1}
-                </div>
+          {steps.map((_, i) => (
+            <div key={i} className="flex justify-center items-center z-10">
+              <div
+                className={cn(
+                  "w-8 h-8 rounded-full flex items-center justify-center text-xs",
+                  i <= step
+                    ? "bg-indigo-500 text-white"
+                    : "bg-[#1a1f2e] text-gray-500 border border-white/10",
+                )}
+              >
+                {i < step ? "✓" : i + 1}
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
 
-        {/* LABELS ROW */}
         <div className="grid grid-cols-3 mt-2">
-          {steps.map((s, i) => {
-            const active = i <= step;
-
-            return (
-              <p
-                key={i}
-                className={`text-center text-xs ${
-                  active ? "text-white" : "text-gray-500"
-                }`}
-              >
-                {s.label}
-              </p>
-            );
-          })}
+          {steps.map((s, i) => (
+            <p
+              key={i}
+              className={cn(
+                "text-center text-xs",
+                i <= step ? "text-white" : "text-white/40",
+              )}
+            >
+              {s.label}
+            </p>
+          ))}
         </div>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      {/* FORM */}
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
+        className="space-y-5"
+      >
         {/* STEP 1 */}
         {step === 0 && (
           <div className="space-y-3">
@@ -162,30 +149,22 @@ export default function OrderForm({ defaultValues, isEdit }) {
               className={inputClass("customerName")}
               {...register("customerName", {
                 required: "Name is required",
-                onChange: () => clearErrors("customerName"),
               })}
             />
-            {errors.customerName && (
-              <p className="text-xs text-red-400">
-                {errors.customerName.message}
-              </p>
-            )}
+            <ErrorText message={errors.customerName?.message} />
 
             <input
               placeholder="Email"
               className={inputClass("email")}
               {...register("email", {
-                required: "Email is required",
+                required: "Email required",
                 pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  value: /^\S+@\S+$/,
                   message: "Invalid email",
                 },
-                onChange: () => clearErrors("email"),
               })}
             />
-            {errors.email && (
-              <p className="text-xs text-red-400">{errors.email.message}</p>
-            )}
+            <ErrorText message={errors.email?.message} />
 
             <input
               placeholder="Phone"
@@ -193,27 +172,21 @@ export default function OrderForm({ defaultValues, isEdit }) {
               {...register("phone", {
                 required: "Phone required",
                 pattern: {
-                  value: /^[0-9]{10}$/,
-                  message: "Enter valid 10 digit number",
+                  value: /^[6-9]\d{9}$/,
+                  message: "Enter valid Indian mobile number",
                 },
-                onChange: () => clearErrors("phone"),
               })}
             />
-            {errors.phone && (
-              <p className="text-xs text-red-400">{errors.phone.message}</p>
-            )}
+            <ErrorText message={errors.phone?.message} />
 
             <input
               placeholder="City"
               className={inputClass("city")}
               {...register("city", {
                 required: "City required",
-                onChange: () => clearErrors("city"),
               })}
             />
-            {errors.city && (
-              <p className="text-xs text-red-400">{errors.city.message}</p>
-            )}
+            <ErrorText message={errors.city?.message} />
           </div>
         )}
 
@@ -221,33 +194,48 @@ export default function OrderForm({ defaultValues, isEdit }) {
         {step === 1 && (
           <div className="space-y-3">
             <select className={inputClass("status")} {...register("status")}>
-              <option value="pending">Pending</option>
-              <option value="in_progress">In Progress</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
+              <option className="bg-[#0b0f1a]" value="pending">
+                Pending
+              </option>
+              <option className="bg-[#0b0f1a]" value="in_progress">
+                In Progress
+              </option>
+              <option className="bg-[#0b0f1a]" value="completed">
+                Completed
+              </option>
+              <option className="bg-[#0b0f1a]" value="cancelled">
+                Cancelled
+              </option>
             </select>
 
             <select
               className={inputClass("priority")}
               {...register("priority")}
             >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
+              <option className="bg-[#0b0f1a]" value="low">
+                Low
+              </option>
+              <option className="bg-[#0b0f1a]" value="medium">
+                Medium
+              </option>
+              <option className="bg-[#0b0f1a]" value="high">
+                High
+              </option>
             </select>
 
             <input
               type="number"
+              placeholder="Amount"
               className={inputClass("amount")}
               {...register("amount", {
                 required: "Amount required",
-                min: { value: 1, message: "Must be greater than 0" },
-                onChange: () => clearErrors("amount"),
+                min: {
+                  value: 1,
+                  message: "Amount must be greater than 0",
+                },
               })}
             />
-            {errors.amount && (
-              <p className="text-xs text-red-400">{errors.amount.message}</p>
-            )}
+            <ErrorText message={errors.amount?.message} />
 
             <input
               placeholder="Assigned To"
@@ -259,19 +247,45 @@ export default function OrderForm({ defaultValues, isEdit }) {
 
         {/* STEP 3 */}
         {step === 2 && (
-          <div className="bg-white/5 p-4 rounded-xl text-sm space-y-2">
-            <p>
-              <b>Name:</b> {data.customerName}
-            </p>
-            <p>
-              <b>Email:</b> {data.email}
-            </p>
-            <p>
-              <b>Status:</b> {data.status}
-            </p>
-            <p>
-              <b>Amount:</b> ₹{data.amount}
-            </p>
+          <div className="bg-white/[0.03] border border-white/5 p-8 rounded-2xl">
+            <div className="space-y-6">
+              {/* Use a grid with 2 columns. Left is auto-width, right takes remaining space. */}
+
+              <div className="grid grid-cols-2 items-center">
+                <span className="text-gray-400 text-sm">Name</span>
+                <span className="text-white text-sm text-right font-medium">
+                  {data.customerName}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 items-center">
+                <span className="text-gray-400 text-sm">Email</span>
+                <span className="text-white text-sm text-right truncate ml-4 font-medium">
+                  {data.email}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 items-center">
+                <span className="text-gray-400 text-sm">Status</span>
+                <div className="flex justify-end">
+                  <span className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                    {data.status?.replace("_", " ")}
+                  </span>
+                </div>
+              </div>
+
+              {/* Subtle divider to separate the price */}
+              <div className="h-px bg-white/5 w-full my-2" />
+
+              <div className="grid grid-cols-2 items-center">
+                <span className="text-gray-400 text-sm font-medium">
+                  Amount
+                </span>
+                <span className="text-xl font-bold text-indigo-400 text-right">
+                  ₹{Number(data.amount).toLocaleString("en-IN")}
+                </span>
+              </div>
+            </div>
           </div>
         )}
 
@@ -279,7 +293,7 @@ export default function OrderForm({ defaultValues, isEdit }) {
         <div className="flex justify-between">
           <div className="flex gap-2">
             {step > 0 && (
-              <Button type="button" variant="ghost" onClick={prev}>
+              <Button type="button" variant="ghost" onClick={handlePrev}>
                 Back
               </Button>
             )}
@@ -288,7 +302,7 @@ export default function OrderForm({ defaultValues, isEdit }) {
               <Button
                 type="button"
                 variant="ghost"
-                className="text-red-400"
+                className="text-red-500 hover:bg-red-500/10"
                 onClick={handleDelete}
               >
                 Delete
@@ -297,11 +311,11 @@ export default function OrderForm({ defaultValues, isEdit }) {
           </div>
 
           {step < 2 ? (
-            <Button type="button" onClick={next}>
+            <Button type="button" onClick={handleNext}>
               Next
             </Button>
           ) : (
-            <Button type="submit">
+            <Button type="button" onClick={handleSubmit(onSubmit)}>
               {isEdit ? "Update Order" : "Create Order"}
             </Button>
           )}

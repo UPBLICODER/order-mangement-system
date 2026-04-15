@@ -58,7 +58,7 @@ export default function Orders() {
         </div>
 
         {/* TABLE SECTION */}
-        <div className="bg-white/[0.02] border border-white/10 rounded-2xl backdrop-blur-xl overflow-hidden">
+        <div className="bg-white/[0.02] md:border md:border-white/10 rounded-2xl backdrop-blur-xl overflow-hidden">
           {/* top bar */}
           <div className="flex justify-between items-center px-5 py-3 ">
             <p className="text-sm text-gray-400">Showing orders</p>

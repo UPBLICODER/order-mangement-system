@@ -23,7 +23,7 @@ export default function StatusGrid({ loading, stats }) {
         return (
           <Card
             key={item.key}
-            onClick={() => navigate(`/orders?status=${item.key}`)}
+            onClick={() => navigate("/orders")}
             className="cursor-pointer flex justify-between items-center group hover:scale-[1.03] hover:shadow-lg hover:shadow-indigo-500/10"
           >
             <div>

@@ -5,7 +5,8 @@ import { recentActivity } from "../data/activity";
 import HeroCard from "../components/dashboard/HeroCard";
 import StatusGrid from "../components/dashboard/StatusGrid";
 import DistributionCard from "../components/dashboard/DistributionCard";
-import RecentActivity from "../components/dashboard/RecentActivity";
+
+import ActivityPanel from "../components/orders/ActivityPanel";
 
 import { useNavigate } from "react-router-dom";
 
@@ -72,16 +73,33 @@ export default function Dashboard() {
         {/* MAIN */}
         {!error && !isEmpty && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10 relative z-10 animate-fadeIn items-start">
-            {/* LEFT */}
-            <div className="lg:col-span-2 flex flex-col gap-6 h-full">
+            {/* HERO */}
+            <div className="lg:col-span-3 flex flex-col gap-6">
               <HeroCard loading={loading} stats={stats} />
-              <StatusGrid loading={loading} stats={stats} />
             </div>
 
-            {/* RIGHT */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
-              <DistributionCard loading={loading} distribution={distribution} />
-              <RecentActivity items={recentActivity} />
+            {/* LEFT MAIN */}
+            <div className="lg:col-span-2 flex flex-col gap-6">
+              <StatusGrid loading={loading} stats={stats} />
+
+             
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+                <DistributionCard
+                  loading={loading}
+                  distribution={distribution}
+                />
+
+                <div className="lg:hidden">
+                  <ActivityPanel loading={loading} />
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT SIDEBAR (ONLY ≥1024) */}
+            <div className="hidden lg:flex flex-col gap-6">
+              <div className="lg:sticky lg:top-6">
+                <ActivityPanel loading={loading} />
+              </div>
             </div>
           </div>
         )}

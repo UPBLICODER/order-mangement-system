@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import { orders } from "../data/orders";
+import { useOrders } from "../context/OrderContext";
 import { getDashboardStats } from "../utils/dashboard";
 import { statusConfig } from "../constants/orderStatusConfig";
 
@@ -7,7 +7,8 @@ export function useDashboard() {
   const [loading, setLoading] = useState(true);
   const [error] = useState(false);
 
-  const stats = useMemo(() => getDashboardStats(orders), []);
+  const { orders } = useOrders();
+  const stats = useMemo(() => getDashboardStats(orders), [orders]);
 
   const distribution = useMemo(() => {
     const total = stats.total;
