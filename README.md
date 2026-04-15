@@ -115,37 +115,6 @@ Handled using **Context API** to ensure real-time updates.
 
 Transforming raw order data into meaningful distribution metrics while maintaining performance.
 
----
-
-### 4. Multi-Step Form Handling
-
-Managing a multi-step order form with:
-
-* Step-wise validation (`react-hook-form`)
-* Preventing accidental submission
-* Maintaining form state across steps
-
----
-
-### 5. Responsive UI Design
-
-Ensuring consistent UI across:
-
-* Mobile
-* Tablet (iPad)
-* Large screens
-
-Handled using **Tailwind CSS responsive utilities**.
-
----
-
-### 6. Custom Component Behavior
-
-Handling reusable components like buttons and cards introduced challenges such as:
-
-* Preventing unintended form submissions
-* Maintaining consistent styles
-* Proper event handling
 
 ---
 
